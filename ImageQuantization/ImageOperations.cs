@@ -21,8 +21,8 @@ namespace ImageQuantization
     {
         public double red, green, blue;
     }
-    
-  
+
+
     /// <summary>
     /// Library of static functions that deal with images
     /// </summary>
@@ -92,7 +92,7 @@ namespace ImageQuantization
 
             return Buffer;
         }
-        
+
         /// <summary>
         /// Get the height of the image 
         /// </summary>
@@ -112,6 +112,19 @@ namespace ImageQuantization
         {
             return ImageMatrix.GetLength(1);
         }
+
+        public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
+        {
+
+            double weight, red_color, green_color, blue_color;
+
+            red_color = Math.Pow(x.red - y.red, 2);
+            blue_color = Math.Pow(x.blue - y.blue, 2);
+            green_color = Math.Pow(x.green - y.green, 2);
+            weight = red_color + blue_color + green_color;
+            return weight;
+        }
+
 
         /// <summary>
         /// Display the given image on the given PictureBox object
@@ -152,13 +165,13 @@ namespace ImageQuantization
         }
 
 
-       /// <summary>
-       /// Apply Gaussian smoothing filter to enhance the edge detection 
-       /// </summary>
-       /// <param name="ImageMatrix">Colored image matrix</param>
-       /// <param name="filterSize">Gaussian mask size</param>
-       /// <param name="sigma">Gaussian sigma</param>
-       /// <returns>smoothed color image</returns>
+        /// <summary>
+        /// Apply Gaussian smoothing filter to enhance the edge detection 
+        /// </summary>
+        /// <param name="ImageMatrix">Colored image matrix</param>
+        /// <param name="filterSize">Gaussian mask size</param>
+        /// <param name="sigma">Gaussian sigma</param>
+        /// <returns>smoothed color image</returns>
         public static RGBPixel[,] GaussianFilter1D(RGBPixel[,] ImageMatrix, int filterSize, double sigma)
         {
             int Height = GetHeight(ImageMatrix);
@@ -167,7 +180,7 @@ namespace ImageQuantization
             RGBPixelD[,] VerFiltered = new RGBPixelD[Height, Width];
             RGBPixel[,] Filtered = new RGBPixel[Height, Width];
 
-           
+
             // Create Filter in Spatial Domain:
             //=================================
             //make the filter ODD size
