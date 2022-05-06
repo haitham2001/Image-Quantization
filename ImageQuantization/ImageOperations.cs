@@ -278,7 +278,7 @@ namespace ImageQuantization
                         }
                     }
                 }
-                 //here we should call minimum spanning tree function
+                 //here we should call minimum spanning tree function and takes unique colors and length of unique colors
             }
             catch (Exception ex)
             {
