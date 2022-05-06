@@ -257,6 +257,45 @@ namespace ImageQuantization
             return Filtered;
         }
 
+        private static bool[,,] Distinct_Colors;
+        private static List<RGBPixel> ColorsUnique;
+
+        public static void DistinctColors(RGBPixel[,] ImageMatrix)
+        {
+            try
+            {
+                long pixel_Height = GetHeight(ImageMatrix);
+                long pixel_Width = GetWidth(ImageMatrix);
+                long length = 0;
+                Distinct_Colors = new bool[255, 255, 255];
+                ColorsUnique = new List<RGBPixel>();
+                for (long i = 0; i < pixel_Height; i++)
+                {
+                    for (long j = 0; j < pixel_Width; j++)
+                    {
+                        int Red_Color = ImageMatrix[i, j].red;
+                        int Blue_Color = ImageMatrix[i, j].blue;
+                        int Green_Color = ImageMatrix[i, j].green;
+                        if (Distinct_Colors[Red_Color, Green_Color, Blue_Color] == false)
+                        {
+                            ColorsUnique.Add(ImageMatrix[i, j]);
+                            length++;
+                            Distinct_Colors[Red_Color, Green_Color, Blue_Color] = true;
+                        }
+                    }
+                }
+                 //here we should call minimum spanning tree function
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public static void MinimumSpanningTree(List<RGBPixel> nodes, long Num_of_Nodes)
+        {
+          //not implemented yet
+        }
 
     }
 }
