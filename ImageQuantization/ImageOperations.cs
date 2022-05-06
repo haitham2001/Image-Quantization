@@ -113,17 +113,6 @@ namespace ImageQuantization
             return ImageMatrix.GetLength(1);
         }
 
-        public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
-        {
-
-            double weight, red_color, green_color, blue_color;
-
-            red_color = Math.Pow(x.red - y.red, 2);
-            blue_color = Math.Pow(x.blue - y.blue, 2);
-            green_color = Math.Pow(x.green - y.green, 2);
-            weight = red_color + blue_color + green_color;
-            return weight;
-        }
 
 
         /// <summary>
@@ -255,6 +244,18 @@ namespace ImageQuantization
                 }
 
             return Filtered;
+        }
+
+        public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
+        {
+
+            double weight, red_color, green_color, blue_color;
+
+            red_color = Math.Pow(x.red - y.red, 2);
+            blue_color = Math.Pow(x.blue - y.blue, 2);
+            green_color = Math.Pow(x.green - y.green, 2);
+            weight = red_color + blue_color + green_color;
+            return weight;
         }
 
         private static bool[,,] Distinct_Colors;
