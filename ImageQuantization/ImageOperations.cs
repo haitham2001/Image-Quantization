@@ -252,9 +252,6 @@ namespace ImageQuantization
             return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));
         }
 */
-        private static bool[,,] Distinct_Colors;
-        private static List<RGBPixel> ColorsUnique;
-
         public static List<RGBPixelD> DistinctColors(RGBPixel[,] ImageMatrix)
         {
             bool[,,] array = new bool[256, 256, 256]; 
