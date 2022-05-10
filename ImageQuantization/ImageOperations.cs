@@ -255,36 +255,27 @@ namespace ImageQuantization
         private static bool[,,] Distinct_Colors;
         private static List<RGBPixel> ColorsUnique;
 
-        public static void DistinctColors(RGBPixel[,] ImageMatrix)
+        public static List<RGBPixelD> DistinctColors(RGBPixel[,] ImageMatrix)
         {
-            try
+            bool[,,] array = new bool[256, 256, 256]; 
+            List<RGBPixelD> list_color = new List<RGBPixelD>();
+            RGBPixelD rGBPixelD;
+
+            for (int index_height = 0; index_height < GetHeight(ImageMatrix); index_height++)
             {
-                long length = 0;
-                long pixel_Height = GetHeight(ImageMatrix);
-                long pixel_Width = GetWidth(ImageMatrix);
-                Distinct_Colors = new bool[255, 255, 255];
-                ColorsUnique = new List<RGBPixel>();
-                for (long i = 0; i < pixel_Height; i++)
+                for (int index_width = 0; index_width < GetWidth(ImageMatrix); index_width++) 
                 {
-                    for (long j = 0; j < pixel_Width; j++)
+                    if (!array[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue])
                     {
-                        int Red_Color = ImageMatrix[i, j].red;
-                        int Blue_Color = ImageMatrix[i, j].blue;
-                        int Green_Color = ImageMatrix[i, j].green;
-                        if (Distinct_Colors[Red_Color, Green_Color, Blue_Color] == false)
-                        {
-                            ColorsUnique.Add(ImageMatrix[i, j]);
-                            length++;
-                            Distinct_Colors[Red_Color, Green_Color, Blue_Color] = true;
-                        }
+                        array[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue] = true;
+                        rGBPixelD.red = ImageMatrix[index_height, index_width].red; 
+                        rGBPixelD.green = ImageMatrix[index_height, index_width].green; 
+                        rGBPixelD.blue = ImageMatrix[index_height, index_width].blue;
+                        list_color.Add(rGBPixelD);              
                     }
                 }
-                double minimumvalue= MiniSpanTree(ColorsUnique,length);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+            return list_color;
         }
 
 
