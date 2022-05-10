@@ -246,11 +246,12 @@ namespace ImageQuantization
             return Filtered;
         }
 
+/*
         public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
         {
             return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));
         }
-
+*/
         private static bool[,,] Distinct_Colors;
         private static List<RGBPixel> ColorsUnique;
 
@@ -258,9 +259,9 @@ namespace ImageQuantization
         {
             try
             {
+                long length = 0;
                 long pixel_Height = GetHeight(ImageMatrix);
                 long pixel_Width = GetWidth(ImageMatrix);
-                long length = 0;
                 Distinct_Colors = new bool[255, 255, 255];
                 ColorsUnique = new List<RGBPixel>();
                 for (long i = 0; i < pixel_Height; i++)
@@ -278,7 +279,7 @@ namespace ImageQuantization
                         }
                     }
                 }
-                 //here we should call minimum spanning tree function and takes unique colors and length of unique colors
+                double minimumvalue= MiniSpanTree(ColorsUnique,length);
             }
             catch (Exception ex)
             {
@@ -286,9 +287,66 @@ namespace ImageQuantization
             }
         }
 
-        public static void MinimumSpanningTree(List<RGBPixel> nodes, long Num_of_Nodes)
+
+
+        public static double MiniSpanTree(List<RGBPixel> nodes, long Num_of_Nodes)
         {
-          //not implemented yet
+            int[] array = new int[Num_of_Nodes];
+            double[] values = new double[Num_of_Nodes];
+            double totalminvalue = 0; //minimum total cost of the whole tree
+            bool[] flag = new bool[Num_of_Nodes];
+            
+            for(int i=0;i<Num_of_Nodes;i++)
+            {
+                values[i] = int.MaxValue;
+                flag[i] = false;
+            }
+
+            //first value(Node) is always included in minispantree
+            //First value will be 0 to be picked as first vertex which is always root
+            values[0] = 0;
+            array[0] = -1;
+
+            int index = 0;
+            while(index<Num_of_Nodes)
+            {
+                double minimum = int.MaxValue;
+                int minimum_index = -1; //try to get minimum node from array of vertices
+
+                for(int i=0;i<Num_of_Nodes;i++)
+                {
+                    if(flag[i] == false && values[i] < minimum)
+                    {
+                        minimum = values[i];
+                        minimum_index = i;
+                    }
+                }
+
+                flag[minimum_index] = true;
+
+                for(int node=0;node<Num_of_Nodes;node++)
+                {
+                    int Red_Color = nodes[minimum_index].red - nodes[node].red;
+                    int Green_Color = nodes[minimum_index].green - nodes[node].red;
+                    int Blue_Color = nodes[minimum_index].blue - nodes[node].red;
+
+                    double distance = Math.Sqrt(Red_Color*Red_Color+Green_Color*Green_Color+Blue_Color*Blue_Color);
+
+                    if(distance>0 && flag[node] == false && distance < values[node])
+                    {
+                        array[node] = minimum_index;
+                        values[node] = distance;
+                    }
+                }
+
+                index++;
+            }
+
+            for (int i = 0; i < Num_of_Nodes; i++)
+            {
+                totalminvalue += values[i];
+            }
+            return totalminvalue;
         }
 
     }
