@@ -337,5 +337,20 @@ namespace ImageQuantization
             return totalminvalue;
         }
 
+        public static RGBPixel[,] quantize_image(RGBPixel[,,] rGBPixels, RGBPixel[,] ImageMatrix)
+        {
+            RGBPixel rGBPixel;
+            for (int index_height = 0; index_height < GetHeight(ImageMatrix); index_height++)
+            {
+                for (int index_width = 0; index_width < GetWidth(ImageMatrix); index_width++)
+                {
+                    rGBPixel.red = rGBPixels[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue].red;
+                    rGBPixel.green = rGBPixels[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue].green;
+                    rGBPixel.blue = rGBPixels[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue].blue;
+                    ImageMatrix[index_height, index_width] = rGBPixel;
+                }
+            }
+            return ImageMatrix;
+        }
     }
 }
