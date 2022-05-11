@@ -36,6 +36,7 @@ namespace ImageQuantization
             double sigma = double.Parse(txtGaussSigma.Text);
             int maskSize = (int)nudMaskSize.Value ;
             ImageMatrix = ImageOperations.GaussianFilter1D(ImageMatrix, maskSize, sigma);
+            MessageBox.Show("Distinct colors: "+ImageOperations.DistinctColors(ImageMatrix).Count.ToString()); // to check number of distinct colors
             ImageOperations.DisplayImage(ImageMatrix, pictureBox2);
         }
 

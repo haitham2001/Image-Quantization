@@ -246,14 +246,30 @@ namespace ImageQuantization
             return Filtered;
         }
 
-/*
-        public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
+        /*
+                public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
+                {
+                    return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));
+                }
+        */
+        public static HashSet<RGBPixel> DistinctColors(RGBPixel[,] ImageMatrix)
         {
-            return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));
+            HashSet<RGBPixel> list_color = new HashSet<RGBPixel>();
+
+            for (int index_height = 0; index_height < GetHeight(ImageMatrix); index_height++)
+            {
+                for (int index_width = 0; index_width < GetWidth(ImageMatrix); index_width++) 
+                {
+                    list_color.Add(ImageMatrix[index_height, index_width]);
+                }
+            }
+            return list_color;
         }
-*/
+
+        /*
         public static List<RGBPixelD> DistinctColors(RGBPixel[,] ImageMatrix)
         {
+
             bool[,,] array = new bool[256, 256, 256]; 
             List<RGBPixelD> list_color = new List<RGBPixelD>();
             RGBPixelD rGBPixelD;
@@ -274,9 +290,7 @@ namespace ImageQuantization
             }
             return list_color;
         }
-
-
-
+        */
         public static double MiniSpanTree(List<RGBPixel> nodes, long Num_of_Nodes)
         {
             int[] array = new int[Num_of_Nodes];
