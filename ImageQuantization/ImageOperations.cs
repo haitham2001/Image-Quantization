@@ -4,6 +4,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Linq;
 ///Algorithms Project
 ///Intelligent Scissors
 ///
@@ -252,20 +253,26 @@ namespace ImageQuantization
                     return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));
                 }
         */
+        
+       public static HashSet<RGBPixel> list_color = new HashSet<RGBPixel>();
         public static HashSet<RGBPixel> DistinctColors(RGBPixel[,] ImageMatrix)
         {
-            HashSet<RGBPixel> list_color = new HashSet<RGBPixel>();
+            
 
-            for (int index_height = 0; index_height < GetHeight(ImageMatrix); index_height++)
+            int width = GetWidth(ImageMatrix);
+            int hight = GetHeight(ImageMatrix);
+            for (int index_width = 0; index_width <width ; index_width++)
             {
-                for (int index_width = 0; index_width < GetWidth(ImageMatrix); index_width++) 
+                for (int index_height = 0; index_height < hight; index_height++)
                 {
-                    list_color.Add(ImageMatrix[index_height, index_width]);
+                    RGBPixel p = ImageMatrix[index_height, index_width];
+                    //int r = ImageMatrix[ind]
+                    list_color.Add(p);
                 }
             }
             return list_color;
         }
-
+        
         /*
         public static List<RGBPixelD> DistinctColors(RGBPixel[,] ImageMatrix)
         {
@@ -291,14 +298,15 @@ namespace ImageQuantization
             return list_color;
         }
         */
-        public static double MiniSpanTree(List<RGBPixel> nodes, long Num_of_Nodes)
+        public static double MiniSpanTree()
         {
-            int[] array = new int[Num_of_Nodes];
-            double[] values = new double[Num_of_Nodes];
-            double totalminvalue = 0; //minimum total cost of the whole tree
-            bool[] flag = new bool[Num_of_Nodes];
+            List<RGBPixel> nodes = list_color.ToList();
+            int[] array = new int[list_color.Count];
+            float[] values = new float[list_color.Count];
+            float totalminvalue = 0; //minimum total cost of the whole tree
+            bool[] flag = new bool[list_color.Count];
             
-            for(int i=0;i<Num_of_Nodes;i++)
+            for(int i=0;i< list_color.Count; i++)
             {
                 values[i] = int.MaxValue;
                 flag[i] = false;
@@ -307,15 +315,15 @@ namespace ImageQuantization
             //first value(Node) is always included in minispantree
             //First value will be 0 to be picked as first vertex which is always root
             values[0] = 0;
-            array[0] = -1;
+            array[0] = 0;
 
             int index = 0;
-            while(index<Num_of_Nodes)
+            while(index< list_color.Count)
             {
                 double minimum = int.MaxValue;
                 int minimum_index = -1; //try to get minimum node from array of vertices
 
-                for(int i=0;i<Num_of_Nodes;i++)
+                for(int i=0;i< list_color.Count; i++)
                 {
                     if(flag[i] == false && values[i] < minimum)
                     {
@@ -326,15 +334,15 @@ namespace ImageQuantization
 
                 flag[minimum_index] = true;
 
-                for(int node=0;node<Num_of_Nodes;node++)
+                for(int node=0;node< list_color.Count; node++)
                 {
                     int Red_Color = nodes[minimum_index].red - nodes[node].red;
-                    int Green_Color = nodes[minimum_index].green - nodes[node].red;
-                    int Blue_Color = nodes[minimum_index].blue - nodes[node].red;
+                    int Green_Color = nodes[minimum_index].green - nodes[node].green;
+                    int Blue_Color = nodes[minimum_index].blue - nodes[node].blue;
 
-                    double distance = Math.Sqrt(Red_Color*Red_Color+Green_Color*Green_Color+Blue_Color*Blue_Color);
+                    float distance = (float) Math.Sqrt(Red_Color*Red_Color+Green_Color*Green_Color+Blue_Color*Blue_Color);
 
-                    if(distance>0 && flag[node] == false && distance < values[node])
+                    if(distance>=0 && flag[node] == false && distance <= values[node])
                     {
                         array[node] = minimum_index;
                         values[node] = distance;
@@ -344,7 +352,7 @@ namespace ImageQuantization
                 index++;
             }
 
-            for (int i = 0; i < Num_of_Nodes; i++)
+            for (int i = 0; i < list_color.Count; i++)
             {
                 totalminvalue += values[i];
             }
