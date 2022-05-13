@@ -302,8 +302,8 @@ namespace ImageQuantization
         {
             List<RGBPixel> nodes = list_color.ToList();
             int[] array = new int[list_color.Count];
-            float[] values = new float[list_color.Count];
-            float totalminvalue = 0; //minimum total cost of the whole tree
+            double[] values = new double[list_color.Count];
+            double totalminvalue = 0; //minimum total cost of the whole tree
             bool[] flag = new bool[list_color.Count];
             
             for(int i=0;i< list_color.Count; i++)
@@ -336,13 +336,13 @@ namespace ImageQuantization
 
                 for(int node=0;node< list_color.Count; node++)
                 {
-                    int Red_Color = nodes[minimum_index].red - nodes[node].red;
-                    int Green_Color = nodes[minimum_index].green - nodes[node].green;
-                    int Blue_Color = nodes[minimum_index].blue - nodes[node].blue;
+                    double Red_Color = nodes[minimum_index].red - nodes[node].red;
+                    double Green_Color = nodes[minimum_index].green - nodes[node].green;
+                    double Blue_Color = nodes[minimum_index].blue - nodes[node].blue;
 
-                    float distance = (float) Math.Sqrt(Red_Color*Red_Color+Green_Color*Green_Color+Blue_Color*Blue_Color);
+                    double distance =  Math.Sqrt(Red_Color*Red_Color+Green_Color*Green_Color+Blue_Color*Blue_Color);
 
-                    if(distance>=0 && flag[node] == false && distance <= values[node])
+                    if(distance>= 0 && flag[node] == false && distance <= values[node])
                     {
                         array[node] = minimum_index;
                         values[node] = distance;
