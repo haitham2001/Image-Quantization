@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -247,119 +247,87 @@ namespace ImageQuantization
             return Filtered;
         }
 
-        /*
-                public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
-                {
-                    return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));
-                }
-        */
+        public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
+        {
+         return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));//Θ(1)
+        }
         
-        public static HashSet<RGBPixel> list_color = new HashSet<RGBPixel>();
+        public static HashSet<RGBPixel> list_color = new HashSet<RGBPixel>(); //Θ(1)
         public static HashSet<RGBPixel> DistinctColors(RGBPixel[,] ImageMatrix)
         {
             
 
-            int width = GetWidth(ImageMatrix);
-            int hight = GetHeight(ImageMatrix);
+            int width = GetWidth(ImageMatrix); //Θ(1)
+            int hight = GetHeight(ImageMatrix);//Θ(1)
 
-            RGBPixel rGBPixelD;
-            for (int index_width = 0; index_width <width ; index_width++)
+            RGBPixel rGBPixelD;//Θ(1)
+            for (int index_width = 0; index_width <width ; index_width++) // N*Inner=>Θ(N*N)
             {
-                for (int index_height = 0; index_height < hight; index_height++)
+                for (int index_height = 0; index_height < hight; index_height++) //N*Θ(1)
                 {
-                    rGBPixelD.red = ImageMatrix[index_height, index_width].red;
-                    rGBPixelD.green = ImageMatrix[index_height, index_width].green;
-                    rGBPixelD.blue = ImageMatrix[index_height, index_width].blue;
-                    list_color.Add(rGBPixelD);
+                    rGBPixelD.red = ImageMatrix[index_height, index_width].red;//Θ(1)
+                    rGBPixelD.green = ImageMatrix[index_height, index_width].green;//Θ(1)
+                    rGBPixelD.blue = ImageMatrix[index_height, index_width].blue;//Θ(1)
+                    list_color.Add(rGBPixelD);//Θ(1)
                 }
             }
-            return list_color;
+            return list_color;//Θ(1)
         }
         
-        /*
-        public static List<RGBPixelD> DistinctColors(RGBPixel[,] ImageMatrix)
-        {
-
-            bool[,,] array = new bool[256, 256, 256]; 
-            List<RGBPixelD> list_color = new List<RGBPixelD>();
-            RGBPixelD rGBPixelD;
-
-            for (int index_height = 0; index_height < GetHeight(ImageMatrix); index_height++)
-            {
-                for (int index_width = 0; index_width < GetWidth(ImageMatrix); index_width++) 
-                {
-                    if (!array[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue])
-                    {
-                        array[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue] = true;
-                        rGBPixelD.red = ImageMatrix[index_height, index_width].red; 
-                        rGBPixelD.green = ImageMatrix[index_height, index_width].green; 
-                        rGBPixelD.blue = ImageMatrix[index_height, index_width].blue;
-                        list_color.Add(rGBPixelD);              
-                    }
-                }
-            }
-            return list_color;
-        }
-        */
         public static double MiniSpanTree()
         {
-            List<RGBPixel> nodes = list_color.ToList();
-            int[] array = new int[list_color.Count];
-            double[] values = new double[list_color.Count];
-            double totalminvalue = 0; //minimum total cost of the whole tree
-            bool[] flag = new bool[list_color.Count];
-            
-            for(int i=0;i< list_color.Count; i++)
+            List<RGBPixel> nodes = list_color.ToList();//Θ(1)
+            int[] array = new int[list_color.Count];//Θ(1)
+            double[] values = new double[list_color.Count];//Θ(1)
+            double totalminvalue = 0;//Θ(1)            //minimum total cost of the whole tree
+            bool[] flag = new bool[list_color.Count];//Θ(1)
+
+            for (int i=0;i< list_color.Count; i++)//Θ(N)
             {
-                values[i] = int.MaxValue;
-                flag[i] = false;
+                values[i] = int.MaxValue;//Θ(1)
+                flag[i] = false;//Θ(1)
             }
 
             //first value(Node) is always included in minispantree
             //First value will be 0 to be picked as first vertex which is always root
-            values[0] = 0;
-            array[0] = 0;
+            values[0] = 0;//Θ(1)
+            array[0] = 0;//Θ(1)
 
-            int index = 0;
-            while(index< list_color.Count)
+            int index = 0;//Θ(1)
+            while (index< list_color.Count)//N*Inner
             {
-                double minimum = int.MaxValue;
-                int minimum_index = -1; //try to get minimum node from array of vertices
+                double minimum = int.MaxValue;//Θ(1)
+                int minimum_index = -1;//Θ(1)  //try to get minimum node from array of vertices
 
-                for(int i=0;i< list_color.Count; i++)
+                for (int i=0;i< list_color.Count; i++)//Θ(N)
                 {
-                    if(flag[i] == false && values[i] < minimum)
+                    if(flag[i] == false && values[i] < minimum)//Θ(1)
                     {
-                        minimum = values[i];
-                        minimum_index = i;
+                        minimum = values[i];//Θ(1)
+                        minimum_index = i;//Θ(1)
                     }
                 }
 
-                flag[minimum_index] = true;
+                flag[minimum_index] = true;//Θ(1)
 
-                for(int node=0;node< list_color.Count; node++)
+                for (int node=0;node< list_color.Count; node++)//N*Inner =>N*Θ(1) equal Θ(N)
                 {
-                    double Red_Color = nodes[minimum_index].red - nodes[node].red;
-                    double Green_Color = nodes[minimum_index].green - nodes[node].green;
-                    double Blue_Color = nodes[minimum_index].blue - nodes[node].blue;
-
-                    double distance =  Math.Sqrt(Red_Color*Red_Color+Green_Color*Green_Color+Blue_Color*Blue_Color);
-
-                    if(distance>= 0 && flag[node] == false && distance <= values[node])
+                    double distance = Distance_between_two_colors(nodes[minimum_index], nodes[node]);//Θ(1)
+                    if (distance>= 0 && flag[node] == false && distance <= values[node])//Θ(1)
                     {
-                        array[node] = minimum_index;
-                        values[node] = distance;
+                        array[node] = minimum_index;//Θ(1)
+                        values[node] = distance;//Θ(1)
                     }
                 }
 
-                index++;
+                index++;//Θ(1)
             }
 
-            for (int i = 0; i < list_color.Count; i++)
+            for (int i = 0; i < list_color.Count; i++)//N*Inner =>N*Θ(1) equal Θ(N)
             {
-                totalminvalue += values[i];
+                totalminvalue += values[i];//Θ(1)
             }
-            return totalminvalue;
+            return totalminvalue;//Θ(1)
         }
 
         public static RGBPixel[,] quantize_image(RGBPixel[,,] rGBPixels, RGBPixel[,] ImageMatrix)
