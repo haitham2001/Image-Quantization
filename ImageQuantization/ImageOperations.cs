@@ -254,20 +254,23 @@ namespace ImageQuantization
                 }
         */
         
-       public static HashSet<RGBPixel> list_color = new HashSet<RGBPixel>();
+        public static HashSet<RGBPixel> list_color = new HashSet<RGBPixel>();
         public static HashSet<RGBPixel> DistinctColors(RGBPixel[,] ImageMatrix)
         {
             
 
             int width = GetWidth(ImageMatrix);
             int hight = GetHeight(ImageMatrix);
+
+            RGBPixel rGBPixelD;
             for (int index_width = 0; index_width <width ; index_width++)
             {
                 for (int index_height = 0; index_height < hight; index_height++)
                 {
-                    RGBPixel p = ImageMatrix[index_height, index_width];
-                    //int r = ImageMatrix[ind]
-                    list_color.Add(p);
+                    rGBPixelD.red = ImageMatrix[index_height, index_width].red;
+                    rGBPixelD.green = ImageMatrix[index_height, index_width].green;
+                    rGBPixelD.blue = ImageMatrix[index_height, index_width].blue;
+                    list_color.Add(rGBPixelD);
                 }
             }
             return list_color;
