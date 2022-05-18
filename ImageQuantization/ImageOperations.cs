@@ -247,19 +247,9 @@ namespace ImageQuantization
             return Filtered;
         }
 
-        public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)
+        public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)//Θ(1)
         {
-        //      public static double EuclideanDistance(RgbPixel p1, RgbPixel p2)
-        //{
-            int redDistance = x.red - y.red;
-            int greenDistance = x.green - y.green;
-            int blueDistance = x.blue - y.blue;
-
-            double squareDistance = redDistance * redDistance + greenDistance * greenDistance + blueDistance * blueDistance;
-            return Math.Sqrt(squareDistance);
-
-        //}
-        // return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));//Θ(1)
+         return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));//Θ(1)
         }
         
         public static HashSet<RGBPixel> list_color = new HashSet<RGBPixel>(); //Θ(1)

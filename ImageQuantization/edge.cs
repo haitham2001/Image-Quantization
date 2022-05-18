@@ -5,14 +5,14 @@ using System.Text;
 
 namespace ImageQuantization
 {
-    class edge
+    class Edge
     {
-        public int next, first;
+        public int to, from;
         public double weight;
-        public edge(int next, int first, double weight)
+        public Edge(int next, int first, double weight)
         {
-            this.next = next;
-            this.first = first;
+            this.to = next;
+            this.from = first;
             this.weight = weight;
         }
     }
