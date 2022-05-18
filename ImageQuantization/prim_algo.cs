@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ImageQuantization
 {
@@ -10,7 +11,6 @@ namespace ImageQuantization
         MinHeap minheap;
         int num_of_vertices;
         bool[] is_in_heap;
-        public List<Edge> adjlist;
         int[] root;
         double[] min_weights;
         double[] key;
@@ -22,9 +22,8 @@ namespace ImageQuantization
             minheap = new MinHeap(num_vertics);
             root = new int[num_vertics];
             min_weights = new double[num_vertics];
-            key = new double[num_of_vertices];
+            key = new double[num_vertics];
         }
-
 
         public List<Edge> graphOfMST(RGBPixel[] distinct_colors)
         {
@@ -42,7 +41,7 @@ namespace ImageQuantization
         public void primMst(RGBPixel[] distinct)
         {
             // Initializing needed Variables
-            for (int i = 0; i < num_of_vertices; i++) //O(v)
+            for (int i = 0; i < num_of_vertices; i++)
             {
                 // Constructing the Minimum Heap
                 Node temp = new Node();
@@ -97,7 +96,7 @@ namespace ImageQuantization
             for (int i = 0; i < num_of_vertices; i++)
                 total_sum += min_weights[i];
 
-            return Math.Round(total_sum, 2);
+            return Math.Round(total_sum, 1);
         }
     }
 }

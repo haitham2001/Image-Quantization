@@ -45,7 +45,7 @@ namespace ImageQuantization
             textBox2.Text = distinctColor.Count.ToString();
             textBox3.Text = mst.ToString();
 
-            ImageOperations.list_color.Clear();
+            ImageOperations.DistinctColours.Clear();
 
             //======================================================================================
             ImageMatrix = ImageOperations.GaussianFilter1D(ImageMatrix, maskSize, sigma);
