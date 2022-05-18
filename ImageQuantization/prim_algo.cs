@@ -38,6 +38,11 @@ namespace ImageQuantization
             return adjaceny_list;
         }
 
+        public int[] getParents()
+        {
+            return root;
+        }
+
         public void primMst(RGBPixel[] distinct)
         {
             // Initializing needed Variables
