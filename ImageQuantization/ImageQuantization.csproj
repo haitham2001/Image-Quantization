@@ -55,6 +55,7 @@
     <Compile Include="MinHeap.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="prim_algo.cs" />
+    <Compile Include="PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">

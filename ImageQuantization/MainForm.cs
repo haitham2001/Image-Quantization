@@ -36,25 +36,26 @@ namespace ImageQuantization
             double before = System.Environment.TickCount;
             double sigma = double.Parse(txtGaussSigma.Text);
             int maskSize = (int)nudMaskSize.Value ;
-            var distinctColor = ImageOperations.DistinctColors(ImageMatrix);
+            List<RGBPixel> distinctColor = ImageOperations.DistinctColors(ImageMatrix);
             var prim_algo = new prim_algo(distinctColor.Count);
-            var mst = prim_algo.MST(distinctColor);
-            
+            List<Edge> edges = prim_algo.graphOfMST(distinctColor.ToArray());
+            double mst = prim_algo.minimumSumOfMST();
+
             //=================================================================================
-            MessageBox.Show("Distinct colors: " + distinctColor.Count.ToString());
-            MessageBox.Show("mst sum: " + mst.ToString());
-            MessageBox.Show("edge: " + prim_algo.edges.Count);
+            textBox2.Text = distinctColor.Count.ToString();
+            textBox3.Text = mst.ToString();
+
             ImageOperations.list_color.Clear();
 
             //======================================================================================
             ImageMatrix = ImageOperations.GaussianFilter1D(ImageMatrix, maskSize, sigma);
-           // to check number of distinct colors
+            // to check number of distinct colors
             ImageOperations.DisplayImage(ImageMatrix, pictureBox2);
 
             double after = System.Environment.TickCount;
             double result = after - before;
             result /= 1000;
-            sec2.Text = result.ToString() + " Sec";
+            textBox4.Text = result.ToString() + " Sec";
         }
 
         private void MainForm_Load(object sender, EventArgs e)

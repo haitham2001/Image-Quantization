@@ -5,10 +5,9 @@ using System.Text;
 
 namespace ImageQuantization
 {
-    class Node
+    public class Node
     {
         public int vertex;
         public double weight;
-
     }
 }

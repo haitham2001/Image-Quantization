@@ -249,14 +249,14 @@ namespace ImageQuantization
 
         public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)//Θ(1)
         {
-         return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));//Θ(1)
+            //RGBPixel p;
+            ///p.red = 
+            return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));//Θ(1)
         }
         
         public static HashSet<RGBPixel> list_color = new HashSet<RGBPixel>(); //Θ(1)
-        public static HashSet<RGBPixel> DistinctColors(RGBPixel[,] ImageMatrix)
+        public static List<RGBPixel> DistinctColors(RGBPixel[,] ImageMatrix)
         {
-            
-
             int width = GetWidth(ImageMatrix); //Θ(1)
             int hight = GetHeight(ImageMatrix);//Θ(1)
 
@@ -272,7 +272,7 @@ namespace ImageQuantization
                 }
             }
             
-            return list_color;//Θ(1)
+            return list_color.ToList();//Θ(1)
         }
         //public static Dictionary<KeyValuePair<int,int>,double>
         
