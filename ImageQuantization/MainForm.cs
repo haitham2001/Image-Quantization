@@ -40,7 +40,7 @@ namespace ImageQuantization
             var prim_algo = new prim_algo(distinctColor.Count);
             List<Edge> edges = prim_algo.graphOfMST(distinctColor.ToArray());
             double mst = prim_algo.minimumSumOfMST();
-            Clustering cluster = new Clustering(int.Parse(textBox1.Text), edges, distinctColor, prim_algo.getParents());
+            var cluster = Clustering.getClusters(edges, int.Parse(textBox1.Text));
 
             //=================================================================================
             textBox2.Text = distinctColor.Count.ToString();

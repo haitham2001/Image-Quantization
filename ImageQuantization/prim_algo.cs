@@ -28,11 +28,11 @@ namespace ImageQuantization
         public List<Edge> graphOfMST(RGBPixel[] distinct_colors)
         {
             List<Edge> adjaceny_list = new List<Edge>();
-            
+
             primMst(distinct_colors);
             for (int i = 0; i < num_of_vertices; i++)
             {
-                Edge temp = new Edge(root[i],i,min_weights[i]);
+                Edge temp = new Edge(root[i], i, min_weights[i]);
                 adjaceny_list.Add(temp);
             }
             return adjaceny_list;

@@ -255,17 +255,17 @@ namespace ImageQuantization
         public static List<RGBPixel> DistinctColours;
         public static List<RGBPixel> DistinctColors(RGBPixel[,] colors)
         {
-            bool[,,] visited = new bool[256, 256, 256];
-            DistinctColours = new List<RGBPixel>();
+            bool[,,] visited = new bool[256, 256, 256];  //O(1)
+            DistinctColours = new List<RGBPixel>();         //O(1)
 
-            for (int i = 0; i < colors.GetLength(0); i++)
+            for (int i = 0; i < colors.GetLength(0); i++)      //O(n)       n ---> length
             {
-                for (int j = 0; j < colors.GetLength(1); j++)
+                for (int j = 0; j < colors.GetLength(1); j++)   //O(w)       w --->wigth
                 {
-                    if (visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] == false)
+                    if (visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] == false) //O(1)
                     {
-                        visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] = true;
-                        DistinctColours.Add(colors[i, j]);
+                        visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] = true;  //O(1)
+                        DistinctColours.Add(colors[i, j]);  //O(1)
                     }
                 }
             }
