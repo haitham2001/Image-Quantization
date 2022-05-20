@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clustering.cs" />
+    <Compile Include="color.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

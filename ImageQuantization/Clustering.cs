@@ -8,77 +8,92 @@ namespace ImageQuantization
     class Clustering
     {
 
-        public static Dictionary<int, List<int>> neighbours;
+        public static Dictionary<RGBPixel, List<RGBPixel>> neighbours = new Dictionary<RGBPixel, List<RGBPixel>>();
 
-        public static List<HashSet<int>> getClusters(List<Edge> MST, int num_cluster)
+        public static List<HashSet<RGBPixel>> getClusters(List<Edge> MST, int num_cluster, List<color> distinctColor) // O(K *d)
         {
-            List<HashSet<int>> clusters = new List<HashSet<int>>();
-            HashSet<int> reached = new HashSet<int>();
             int index_of_max;
             double max;
-            
-            for (int j = 0; j < num_cluster - 1; j++)
+            List<HashSet<RGBPixel>> clusters = new List<HashSet<RGBPixel>>();
+            HashSet<RGBPixel> reached = new HashSet<RGBPixel>();
+
+            while (num_cluster != 1)
             {
                 index_of_max = 0;
                 max = 0;
-
-                for (int i = 0; i < MST.Count; i++)
+                var count =MST.Count-1;
+                while (count != 0)
                 {
-                    if (MST[i].weight > max)
+                    if (MST[count].weight > max)
                     {
-                        max = MST[i].weight;
-                        index_of_max = i;
+                        max = MST[count].weight;
+                        index_of_max = count;
                     }
+                    count--;
                 }
-                //Edge e = new Edge(MST[index_of_max].from, MST[index_of_max].to, 0);
                 MST[index_of_max].weight = -1;
+                num_cluster--;
             }
+            
+            List<RGBPixel> enig = new List<RGBPixel>();
+            for (int i = 0; i < distinctColor.Count; i++)
+            {
+                neighbours.Add(distinctColor[i].RGB_color, enig);
+            }
+
 
             foreach (var edge in MST)
             {
+
                 if (edge.weight != -1)
                 {
-
-                    if (neighbours.ContainsKey(edge.from))
-                    {
-                        neighbours[edge.from].Add(edge.to);
-                    }
-                    else
-                    {
-                        List<int> l = new List<int>();
-                        l.Add(edge.to);
-                        neighbours.Add(edge.from, l);
-                    }
-                    if (neighbours.ContainsKey(edge.to))
-                    {
-                        neighbours[edge.to].Add(edge.from);
-                    }
-                    else
-                    {
-                        List<int> l = new List<int>();
-                        l.Add(edge.from);
-                        neighbours.Add(edge.to, l);
-                    }
+                    neighbours[edge.from.RGB_color].Add(edge.to.RGB_color);
+                    neighbours[edge.to.RGB_color].Add(edge.from.RGB_color);
+                    //    if (neighbours.ContainsKey(edge.from))
+                    //    {
+                    //        neighbours[edge.from].Add(edge.to);
+                    //    }
+                    //    else
+                    //    {
+                    //        List<int> l = new List<int>();
+                    //        l.Add(edge.to);
+                    //        neighbours.Add(edge.from, l);
+                    //    }
+                    //    if (neighbours.ContainsKey(edge.to))
+                    //    {
+                    //        neighbours[edge.to].Add(edge.from);
+                    //    }
+                    //    else
+                    //    {
+                    //        List<int> l = new List<int>();
+                    //        l.Add(edge.from);
+                    //        neighbours.Add(edge.to, l);
+                    //    }
+                    var s = neighbours;
                 }
                 else
                 {
-                    if (!neighbours.ContainsKey(edge.from))
-                    {
-                        List<int> l = new List<int>();
-                        neighbours.Add(edge.from, l);
-                    }
-                    if (!neighbours.ContainsKey(edge.to))
-                    {
-                        List<int> l = new List<int>();
-                        neighbours.Add(edge.to, l);
-                    }
+                    var s = neighbours;
+                    continue;
+                    //if (!neighbours.ContainsKey(edge.from))
+                    //{
+                    //    List<int> l = new List<int>();
+                    //    neighbours.Add(edge.from, l);
+                    //}
+                    //if (!neighbours.ContainsKey(edge.to))
+                    //{
+                    //    List<int> l = new List<int>();
+                    //    neighbours.Add(edge.to, l);
+                    //}
+
                 }
             }
+            
             foreach (var vertex in neighbours)
             {
                 if (!reached.Contains(vertex.Key))
                 {
-                    HashSet<int> h = new HashSet<int>();
+                    HashSet<RGBPixel> h = new HashSet<RGBPixel>();
                     DFS(vertex.Key, ref reached, ref neighbours, ref h);
                     clusters.Add(h);
                 }
@@ -87,7 +102,7 @@ namespace ImageQuantization
             return clusters;
         }
 
-        private static void DFS(int cur, ref HashSet<int> visited, ref Dictionary<int, List<int>> neighbours, ref HashSet<int> cluster)
+        private static void DFS(RGBPixel cur, ref HashSet<RGBPixel> visited, ref Dictionary<RGBPixel, List<RGBPixel>> neighbours, ref HashSet<RGBPixel> cluster)
         {
             visited.Add(cur);
             cluster.Add(cur);
@@ -124,6 +139,7 @@ namespace ImageQuantization
 
             return Palette;
         }
+
 
         public static RGBPixel[,] QuantizedImage(RGBPixel[,] imageMatrix, List<RGBPixel> palette)
         {
@@ -166,89 +182,8 @@ namespace ImageQuantization
             }
             return returnPixel;
         }
-        //int k; // k clusters
-        //List<Edge> edges; // our edges that we got from the tree
-        //List<RGBPixel> num_of_colors;
-        //int[] parent; // to check if a vertex have a parent or no
-        //List<int>[] adjacency_list;
-        //Dictionary<RGBPixel, bool> list;
 
-        //public Clustering(int k, List<Edge> edges, List<RGBPixel> distinct_colors, int[] parent)
-        //{
-        //    this.k = k;
-        //    this.edges = edges;
-        //    num_of_colors = distinct_colors;
-        //    this.parent = parent;
-        //    adjacency_list = new List<int>[num_of_colors.Count];
-        //    list = new Dictionary<RGBPixel, bool>();
-        //    for (int i = 0; i < num_of_colors.Count; i++)
-        //    {
-        //        list.Add(distinct_colors[i], false);
-        //        adjacency_list[i] = new List<int>();
-        //    }
-        //}
 
-        //public void getClusters()   //O(k * D)
-        //{
-        //    while (k != 0)//O(k)
-        //    {
-        //        int index_of_max = 0;
-        //        double max = -1;
-        //        for (int i = 0; i < num_of_colors.Count; i++)//O(D)
-        //        {
-        //            double current_weight = edges[i].weight;  //O(1)
-        //            if (current_weight > max) //O(1)
-        //            {
-        //                max = current_weight;
-        //                index_of_max = i;
-        //            }
-        //        }
-        //        edges[index_of_max].weight = -1;   //O(1)
-        //        parent[index_of_max] = index_of_max;  //O(1)
-        //        k--;
-        //    }
-
-        //    for (int i = 0; i < num_of_colors.Count; i++)
-        //    {
-        //        if (parent[i] != i)
-        //        {
-        //            adjacency_list[i].Add(parent[i]);
-        //            adjacency_list[parent[i]].Add(i);
-        //        }
-        //    }
-
-            //    for (int i = 0; i < num_of_colors.Count; i++)
-            //    {
-            //        if(list[num_of_colors[i]]==false)
-            //        {
-            //            DFS(num_of_colors[i]);
-
-            //        }
-            //    }
-            //}
-
-            //public void DFS(RGBPixel index)
-            //{
-            //    list[index] = true;
-
-            //    //foreach(int i in adjacency_list[index])
-            //    //{
-            //    //    if(list[num_of_colors[i]] == false)
-            //    //    {
-            //    //        DFS(num_of_colors[i]);
-            //    //    }
-            //    //}
-
-            //}
-
-            //public List<RGBPixel> colorPallette()
-            //{
-            //    List<RGBPixel> colors = new List<RGBPixel>();
-            //    RGBPixel color;
-
-            //    return colors;
-            //}
-
-        }
+    }
 }
 

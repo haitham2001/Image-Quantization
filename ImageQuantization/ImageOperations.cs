@@ -252,27 +252,29 @@ namespace ImageQuantization
             return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));//Θ(1)
         }
 
-        public static List<RGBPixel> DistinctColours;
-        public static List<RGBPixel> DistinctColors(RGBPixel[,] colors)
+        public static List<color> DistinctColours;
+        public static List<color> DistinctColors(RGBPixel[,] colors) // O(N*N)
         {
-            bool[,,] visited = new bool[256, 256, 256];  //O(1)
-            DistinctColours = new List<RGBPixel>();         //O(1)
-
-            for (int i = 0; i < colors.GetLength(0); i++)      //O(n)       n ---> length
+            byte[,,] visited = new byte[256, 256, 256]; //O(1)
+            DistinctColours = new List<color>();         //O(1)
+            int num = 0;
+            for (int i = 0; i < colors.GetLength(0); i++)      //O(N)       N ---> length
             {
-                for (int j = 0; j < colors.GetLength(1); j++)   //O(w)       w --->wigth
+                for (int j = 0; j < colors.GetLength(1); j++)   //O(W)       W --->wigth
                 {
-                    if (visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] == false) //O(1)
+                    if (visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] == 0) //O(1)
                     {
-                        visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] = true;  //O(1)
-                        DistinctColours.Add(colors[i, j]);  //O(1)
+                        visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] = 1;  //O(1)
+                        num = (colors[i, j].red << 16) + (colors[i, j].green << 8) + colors[i, j].blue; //O(1)
+                        color new_color = new color(colors[i, j], num); //O(1)
+                        DistinctColours.Add(new_color);  //O(1)
                     }
                 }
             }
             return DistinctColours;
         }
         
-        public static RGBPixel[,] quantize_image(RGBPixel[,,] rGBPixels, RGBPixel[,] ImageMatrix)
+        public static RGBPixel[,] quantize_image(RGBPixel[,,] rGBPixels, RGBPixel[,] ImageMatrix) //n*n
         {
             RGBPixel rGBPixel;
             for (int index_height = 0; index_height < GetHeight(ImageMatrix); index_height++)
@@ -293,46 +295,4 @@ namespace ImageQuantization
 
 
 
-//publicstatic List<RGBPixel> DistinctColours;
 
-
-
-//publicstatic int GetDistinctColors(RGBPixel[,] Buffer)
-
-//{
-
-//    bool[,,] Visited_Buffer = new bool[256, 256, 256];
-
-
-
-//    DistinctColours = new List<RGBPixel>();
-
-
-
-//    for (inti = 0; i < Buffer.GetLength(0); i++)
-
-//    {
-
-//        for (intj = 0; j < Buffer.GetLength(1); j++)
-
-//        {
-
-
-
-//            if (Visited_Buffer[Buffer[i, j].red, Buffer[i, j].green, Buffer[i, j].blue] == false)
-
-//            {
-
-//                Visited_Buffer[Buffer[i, j].red, Buffer[i, j].green, Buffer[i, j].blue] = true;
-
-//                DistinctColours.Add(Buffer[i, j]);
-
-//            }
-
-//        }
-
-//    }
-
-//    returnDistinctColours.Count;
-
-//}

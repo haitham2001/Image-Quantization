@@ -25,28 +25,30 @@ namespace ImageQuantization
             key = new double[num_vertics];
         }
 
-        public List<Edge> graphOfMST(RGBPixel[] distinct_colors)
+        public List<Edge> graphOfMST(List<color>distinct_colors)
         {
             List<Edge> adjaceny_list = new List<Edge>();
 
             primMst(distinct_colors);
             for (int i = 0; i < num_of_vertices; i++)
             {
-                Edge temp = new Edge(root[i], i, min_weights[i]);
-                adjaceny_list.Add(temp);
+                if (root[i] >= 0)
+                {
+                    Edge temp = new Edge(distinct_colors[root[i]], distinct_colors[i], min_weights[i]);
+                    adjaceny_list.Add(temp);
+                }
+                else
+                {
+                    continue;
+                }
             }
             return adjaceny_list;
         }
 
-        public int[] getParents()
-        {
-            return root;
-        }
-
-        public void primMst(RGBPixel[] distinct)
+        public void primMst(List<color> distinct)// O(E log(V))
         {
             // Initializing needed Variables
-            for (int i = 0; i < num_of_vertices; i++)
+            for (int i = 0; i < num_of_vertices; i++) 
             {
                 // Constructing the Minimum Heap
                 Node temp = new Node();
@@ -75,7 +77,8 @@ namespace ImageQuantization
                 {
                     if(is_in_heap[i])
                     {
-                        double temp_weight = ImageOperations.Distance_between_two_colors(distinct[vertex_of_minimum_node],distinct[i]);
+
+                        double temp_weight = ImageOperations.Distance_between_two_colors(distinct[vertex_of_minimum_node].RGB_color, distinct[i].RGB_color);
 
                         if (temp_weight < key[i])
                         {

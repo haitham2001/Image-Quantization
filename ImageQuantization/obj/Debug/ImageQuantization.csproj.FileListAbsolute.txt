@@ -40,15 +40,6 @@ C:\Users\javahome\Documents\GitHub\Image-Quantization\ImageQuantization\obj\Debu
 C:\Users\javahome\Documents\GitHub\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.exe
 C:\Users\javahome\Documents\GitHub\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.pdb
 C:\Users\javahome\Documents\GitHub\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csprojAssemblyReference.cache
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\bin\Debug\ImageQuantization.exe
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\bin\Debug\ImageQuantization.pdb
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.AssemblyReference.cache
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.MainForm.resources
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.Properties.Resources.resources
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.GenerateResource.cache
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.exe
-C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.pdb
 C:\Users\Haitham Mahmoud\Documents\GitHub\Image-Quantization\ImageQuantization\bin\Debug\ImageQuantization.exe
 C:\Users\Haitham Mahmoud\Documents\GitHub\Image-Quantization\ImageQuantization\bin\Debug\ImageQuantization.pdb
 C:\Users\Haitham Mahmoud\Documents\GitHub\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.AssemblyReference.cache
@@ -58,3 +49,12 @@ C:\Users\Haitham Mahmoud\Documents\GitHub\Image-Quantization\ImageQuantization\o
 C:\Users\Haitham Mahmoud\Documents\GitHub\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
 C:\Users\Haitham Mahmoud\Documents\GitHub\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.exe
 C:\Users\Haitham Mahmoud\Documents\GitHub\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.pdb
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\bin\Debug\ImageQuantization.exe
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\bin\Debug\ImageQuantization.pdb
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.AssemblyReference.cache
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.MainForm.resources
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.Properties.Resources.resources
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.GenerateResource.cache
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.exe
+C:\Users\Hany\Desktop\Github\Image-Quantization\ImageQuantization\obj\Debug\ImageQuantization.pdb

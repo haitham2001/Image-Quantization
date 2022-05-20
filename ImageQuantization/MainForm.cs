@@ -36,11 +36,14 @@ namespace ImageQuantization
             double before = System.Environment.TickCount;
             double sigma = double.Parse(txtGaussSigma.Text);
             int maskSize = (int)nudMaskSize.Value ;
-            List<RGBPixel> distinctColor = ImageOperations.DistinctColors(ImageMatrix);
+            List<color> distinctColor = ImageOperations.DistinctColors(ImageMatrix);
             var prim_algo = new prim_algo(distinctColor.Count);
-            List<Edge> edges = prim_algo.graphOfMST(distinctColor.ToArray());
+            List<Edge> edges = prim_algo.graphOfMST(distinctColor);
             double mst = prim_algo.minimumSumOfMST();
-            var cluster = Clustering.getClusters(edges, int.Parse(textBox1.Text));
+            int K = int.Parse(textBox1.Text);
+            var cluster = Clustering.getClusters(edges,K, distinctColor);
+            var t = Clustering.ExtractColors(cluster);
+            var v = Clustering.QuantizedImage(ImageMatrix,t);
 
             //=================================================================================
             textBox2.Text = distinctColor.Count.ToString();
@@ -49,9 +52,9 @@ namespace ImageQuantization
             ImageOperations.DistinctColours.Clear();
 
             //======================================================================================
-            ImageMatrix = ImageOperations.GaussianFilter1D(ImageMatrix, maskSize, sigma);
+            //ImageMatrix = ImageOperations.GaussianFilter1D(v, maskSize, sigma);
             // to check number of distinct colors
-            ImageOperations.DisplayImage(ImageMatrix, pictureBox2);
+            ImageOperations.DisplayImage(v, pictureBox2);
 
             double after = System.Environment.TickCount;
             double result = after - before;
@@ -60,6 +63,11 @@ namespace ImageQuantization
         }
 
         private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
