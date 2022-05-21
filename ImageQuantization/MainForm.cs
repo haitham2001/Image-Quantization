@@ -41,9 +41,9 @@ namespace ImageQuantization
             List<Edge> edges = prim_algo.graphOfMST(distinctColor);
             double mst = prim_algo.minimumSumOfMST();
             int K = int.Parse(textBox1.Text);
-            var cluster = Clustering.getClusters(edges,K, distinctColor);
-            var t = Clustering.ExtractColors(cluster);
-            var v = Clustering.QuantizedImage(ImageMatrix,t);
+            var cluster = Clustering.getClusters(edges, K, distinctColor);
+            var f = Clustering.ExtractColors(cluster);
+            var v = Clustering.QuantizedImage(ImageMatrix,f);
 
             //=================================================================================
             textBox2.Text = distinctColor.Count.ToString();
@@ -52,7 +52,7 @@ namespace ImageQuantization
             ImageOperations.DistinctColours.Clear();
 
             //======================================================================================
-            //ImageMatrix = ImageOperations.GaussianFilter1D(v, maskSize, sigma);
+            ImageMatrix = ImageOperations.GaussianFilter1D(v, maskSize, sigma);
             // to check number of distinct colors
             ImageOperations.DisplayImage(v, pictureBox2);
 

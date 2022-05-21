@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using System.Text;
 
 namespace ImageQuantization
@@ -17,28 +18,27 @@ namespace ImageQuantization
             List<HashSet<RGBPixel>> clusters = new List<HashSet<RGBPixel>>();
             HashSet<RGBPixel> reached = new HashSet<RGBPixel>();
 
-            while (num_cluster != 1)
+            for (int i = 0; i < num_cluster - 1; i++)
             {
                 index_of_max = 0;
                 max = 0;
-                var count =MST.Count-1;
-                while (count != 0)
+
+                for (int j = 0; j < MST.Count; j++)
                 {
-                    if (MST[count].weight > max)
+                    if (i == 0)
                     {
-                        max = MST[count].weight;
-                        index_of_max = count;
+                        neighbours.Add(distinctColor[j].RGB_color, new List<RGBPixel>());
+                        if (j == MST.Count - 1)
+                            neighbours.Add(distinctColor[MST.Count].RGB_color, new List<RGBPixel>());
                     }
-                    count--;
+                    if (MST[j].weight > max)
+                    {
+                        max = MST[j].weight;
+                        index_of_max = j;
+                    }
+
                 }
                 MST[index_of_max].weight = -1;
-                num_cluster--;
-            }
-            
-            List<RGBPixel> enig = new List<RGBPixel>();
-            for (int i = 0; i < distinctColor.Count; i++)
-            {
-                neighbours.Add(distinctColor[i].RGB_color, enig);
             }
 
 
@@ -49,46 +49,13 @@ namespace ImageQuantization
                 {
                     neighbours[edge.from.RGB_color].Add(edge.to.RGB_color);
                     neighbours[edge.to.RGB_color].Add(edge.from.RGB_color);
-                    //    if (neighbours.ContainsKey(edge.from))
-                    //    {
-                    //        neighbours[edge.from].Add(edge.to);
-                    //    }
-                    //    else
-                    //    {
-                    //        List<int> l = new List<int>();
-                    //        l.Add(edge.to);
-                    //        neighbours.Add(edge.from, l);
-                    //    }
-                    //    if (neighbours.ContainsKey(edge.to))
-                    //    {
-                    //        neighbours[edge.to].Add(edge.from);
-                    //    }
-                    //    else
-                    //    {
-                    //        List<int> l = new List<int>();
-                    //        l.Add(edge.from);
-                    //        neighbours.Add(edge.to, l);
-                    //    }
-                    var s = neighbours;
                 }
                 else
                 {
-                    var s = neighbours;
                     continue;
-                    //if (!neighbours.ContainsKey(edge.from))
-                    //{
-                    //    List<int> l = new List<int>();
-                    //    neighbours.Add(edge.from, l);
-                    //}
-                    //if (!neighbours.ContainsKey(edge.to))
-                    //{
-                    //    List<int> l = new List<int>();
-                    //    neighbours.Add(edge.to, l);
-                    //}
 
                 }
             }
-            
             foreach (var vertex in neighbours)
             {
                 if (!reached.Contains(vertex.Key))
@@ -99,6 +66,7 @@ namespace ImageQuantization
                 }
             }
 
+            
             return clusters;
         }
 
@@ -141,6 +109,11 @@ namespace ImageQuantization
         }
 
 
+
+
+
+
+
         public static RGBPixel[,] QuantizedImage(RGBPixel[,] imageMatrix, List<RGBPixel> palette)
         {
             int height = imageMatrix.GetLength(0);
@@ -181,9 +154,11 @@ namespace ImageQuantization
                 }
             }
             return returnPixel;
+         
+
+
         }
-
-
     }
 }
+
 
