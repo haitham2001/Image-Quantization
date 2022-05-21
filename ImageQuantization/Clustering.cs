@@ -8,15 +8,15 @@ namespace ImageQuantization
 {
     class Clustering
     {
+        public static List<List<RGBPixel>> rgb_clusters;
 
-        public static Dictionary<RGBPixel, List<RGBPixel>> neighbours = new Dictionary<RGBPixel, List<RGBPixel>>();
-
-        public static List<HashSet<RGBPixel>> getClusters(List<Edge> MST, int num_cluster, List<color> distinctColor) // O(K *d)
+        public static List<HashSet<int>> getClusters(List<Edge> MST, int num_cluster, List<color> distinctColor) // O(K *d)
         {
+            Dictionary<int, List<int>> neighbours = new Dictionary<int, List<int>>();
+            List<HashSet<int>> clusters = new List<HashSet<int>>();
+            HashSet<int> reached = new HashSet<int>();
             int index_of_max;
             double max;
-            List<HashSet<RGBPixel>> clusters = new List<HashSet<RGBPixel>>();
-            HashSet<RGBPixel> reached = new HashSet<RGBPixel>();
 
             for (int i = 0; i < num_cluster - 1; i++)
             {
@@ -27,9 +27,9 @@ namespace ImageQuantization
                 {
                     if (i == 0)
                     {
-                        neighbours.Add(distinctColor[j].RGB_color, new List<RGBPixel>());
+                        neighbours.Add(distinctColor[j].int_color, new List<int>());
                         if (j == MST.Count - 1)
-                            neighbours.Add(distinctColor[MST.Count].RGB_color, new List<RGBPixel>());
+                            neighbours.Add(distinctColor[MST.Count].int_color, new List<int>());
                     }
                     if (MST[j].weight > max)
                     {
@@ -41,36 +41,28 @@ namespace ImageQuantization
                 MST[index_of_max].weight = -1;
             }
 
-
             foreach (var edge in MST)
             {
-
                 if (edge.weight != -1)
                 {
-                    neighbours[edge.from.RGB_color].Add(edge.to.RGB_color);
-                    neighbours[edge.to.RGB_color].Add(edge.from.RGB_color);
-                }
-                else
-                {
-                    continue;
-
+                    neighbours[edge.from.int_color].Add(edge.to.int_color);
+                    neighbours[edge.to.int_color].Add(edge.from.int_color);
                 }
             }
+
             foreach (var vertex in neighbours)
             {
                 if (!reached.Contains(vertex.Key))
                 {
-                    HashSet<RGBPixel> h = new HashSet<RGBPixel>();
+                    HashSet<int> h = new HashSet<int>();
                     DFS(vertex.Key, ref reached, ref neighbours, ref h);
                     clusters.Add(h);
                 }
             }
-
-            
             return clusters;
         }
 
-        private static void DFS(RGBPixel cur, ref HashSet<RGBPixel> visited, ref Dictionary<RGBPixel, List<RGBPixel>> neighbours, ref HashSet<RGBPixel> cluster)
+        private static void DFS(int cur, ref HashSet<int> visited, ref Dictionary<int, List<int>> neighbours, ref HashSet<int> cluster)
         {
             visited.Add(cur);
             cluster.Add(cur);
@@ -81,8 +73,23 @@ namespace ImageQuantization
             }
         }
 
-        public static List<RGBPixel> ExtractColors(List<HashSet<RGBPixel>> clusters)
+        public static List<RGBPixel> ExtractColors(List<HashSet<int>> clusters)
         {
+            rgb_clusters = new List<List<RGBPixel>>();
+            for(int i = 0;i<clusters.Count;i++)
+            {
+                List<RGBPixel> rgppixel_color = new List<RGBPixel>();
+                RGBPixel color_in_bytes;
+                foreach (var color in clusters[i])
+                {
+                    color_in_bytes.red = (byte)(color >> 16);
+                    color_in_bytes.green = (byte)(color >> 8);
+                    color_in_bytes.blue = (byte)(color);
+                    rgppixel_color.Add(color_in_bytes);
+                }
+                rgb_clusters.Add(rgppixel_color);
+            }
+
             List<RGBPixel> Palette = new List<RGBPixel>();
             RGBPixel avgColor;
             int redSum, greenSum, blueSum;
@@ -91,7 +98,7 @@ namespace ImageQuantization
             {
                 redSum = 0; greenSum = 0; blueSum = 0;
 
-                foreach (var color in clusters[i])
+                foreach (var color in rgb_clusters[i])
                 {
                     redSum += color.red;
                     greenSum += color.green;
@@ -108,55 +115,29 @@ namespace ImageQuantization
             return Palette;
         }
 
-
-
-
-
-
-
-        public static RGBPixel[,] QuantizedImage(RGBPixel[,] imageMatrix, List<RGBPixel> palette)
+        public static RGBPixel[,] quantizeImage(RGBPixel[,] imageMatrix, List<RGBPixel> palette)
         {
-            int height = imageMatrix.GetLength(0);
-            int width = imageMatrix.GetLength(1);
+            int height = ImageOperations.GetHeight(imageMatrix);
+            int width = ImageOperations.GetWidth(imageMatrix);
+            RGBPixel[,] quantized_image = new RGBPixel[height, width];
+            RGBPixel[,,] new_colors = new RGBPixel[256, 256, 256];
+
+            for (int i = 0; i < rgb_clusters.Count; i++)
+            {
+                foreach (var cluster in rgb_clusters[i])
+                {
+                    new_colors[cluster.red, cluster.blue, cluster.green] = palette[i];
+                }
+            }
 
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    imageMatrix[i, j] = calculateWeight(palette, imageMatrix[i, j]);
+                    quantized_image[i, j] = new_colors[imageMatrix[i, j].red, imageMatrix[i, j].blue, imageMatrix[i, j].green];
                 }
             }
-
-
-            return imageMatrix;
-        }
-        public static RGBPixel calculateWeight(List<RGBPixel> palette, RGBPixel myCurrentPixel)
-        {
-            RGBPixel returnPixel = myCurrentPixel;
-            double weight = 10000000;
-            int r1, g1, b1;
-            int r2, g2, b2;
-
-            for (int i = 0; i < palette.Count; i++)
-            {
-                r1 = palette[i].red;
-                g1 = palette[i].green;
-                b1 = palette[i].blue;
-                r2 = myCurrentPixel.red;
-                g2 = myCurrentPixel.green;
-                b2 = myCurrentPixel.blue;
-                double eq = Math.Sqrt((r2 - r1) * (r2 - r1) + (g2 - g1) * (g2 - g1) + (b2 - b1) * (b2 - b1));
-
-                if (eq < weight)
-                {
-                    returnPixel = palette[i];
-                    weight = eq;
-                }
-            }
-            return returnPixel;
-         
-
-
+            return quantized_image;
         }
     }
 }

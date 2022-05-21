@@ -43,13 +43,15 @@ namespace ImageQuantization
             int K = int.Parse(textBox1.Text);
             var cluster = Clustering.getClusters(edges, K, distinctColor);
             var f = Clustering.ExtractColors(cluster);
-            var v = Clustering.QuantizedImage(ImageMatrix,f);
+            var v = Clustering.quantizeImage(ImageMatrix,f);
 
             //=================================================================================
             textBox2.Text = distinctColor.Count.ToString();
             textBox3.Text = mst.ToString();
 
             ImageOperations.DistinctColours.Clear();
+
+
 
             //======================================================================================
             ImageMatrix = ImageOperations.GaussianFilter1D(v, maskSize, sigma);

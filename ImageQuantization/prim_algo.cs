@@ -104,7 +104,7 @@ namespace ImageQuantization
             for (int i = 0; i < num_of_vertices; i++)
                 total_sum += min_weights[i];
 
-            return Math.Round(total_sum, 1);
+            return Math.Round(total_sum, 2);
         }
     }
 }
