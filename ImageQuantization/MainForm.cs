@@ -36,32 +36,39 @@ namespace ImageQuantization
             double before = System.Environment.TickCount;
             double sigma = double.Parse(txtGaussSigma.Text);
             int maskSize = (int)nudMaskSize.Value ;
-            List<color> distinctColor = ImageOperations.DistinctColors(ImageMatrix);
+            List<int> distinctColor = ImageOperations.DistinctColors(ImageMatrix);
             var prim_algo = new prim_algo(distinctColor.Count);
             List<Edge> edges = prim_algo.graphOfMST(distinctColor);
-            double mst = prim_algo.minimumSumOfMST();
-            int K = int.Parse(textBox1.Text);
-            var cluster = Clustering.getClusters(edges, K, distinctColor);
-            var f = Clustering.ExtractColors(cluster);
-            var v = Clustering.quantizeImage(ImageMatrix,f);
+            double mst = prim_algo.min_sum_MST();
+            if (textBox1.Text == "")
+            {
+                MessageBox.Show("Please Enter number of K cluster");
+            }
+            else
+            {
+                int K = int.Parse(textBox1.Text);
+                var cluster = Clustering.getClusters(edges, K, distinctColor);
+                var color_extract = Clustering.ExtractColors(cluster);
+                var new_image = Clustering.quantizeImage(ImageMatrix, color_extract);
 
-            //=================================================================================
-            textBox2.Text = distinctColor.Count.ToString();
-            textBox3.Text = mst.ToString();
+                //=================================================================================
+                textBox2.Text = distinctColor.Count.ToString();
+                textBox3.Text = mst.ToString();
 
-            ImageOperations.DistinctColours.Clear();
+                ImageOperations.DistinctColours.Clear();
+                Clustering.clusters.Clear();
 
 
+                //======================================================================================
+                ImageMatrix = ImageOperations.GaussianFilter1D(new_image, maskSize, sigma);
+                // to check number of distinct colors
+                ImageOperations.DisplayImage(new_image, pictureBox2);
 
-            //======================================================================================
-            ImageMatrix = ImageOperations.GaussianFilter1D(v, maskSize, sigma);
-            // to check number of distinct colors
-            ImageOperations.DisplayImage(v, pictureBox2);
-
-            double after = System.Environment.TickCount;
-            double result = after - before;
-            result /= 1000;
-            textBox4.Text = result.ToString() + " Sec";
+                double after = System.Environment.TickCount;
+                double result = after - before;
+                result /= 1000;
+                textBox4.Text = result.ToString() + " Sec";
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)

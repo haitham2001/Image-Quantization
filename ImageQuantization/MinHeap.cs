@@ -38,20 +38,20 @@ namespace ImageQuantization
         }
 
         // raises the Min node in MinHeap
-        public void bubbleUp(int pos)
+        public void bubbleUp(int position)
         {
-            int parentIdx = pos / 2;
-            int currentIdx = pos;
-            while (currentIdx > 0 && node[parentIdx].weight > node[currentIdx].weight)
+            int root_Index = position / 2;
+            int cuurent_Index = position;
+            while (cuurent_Index > 0 && node[root_Index].weight > node[cuurent_Index].weight)
             {
-                Node currentNode = node[currentIdx];
-                Node parentNode = node[parentIdx];
+                Node currentNode = node[cuurent_Index];
+                Node parentNode = node[root_Index];
                 //swap the position
-                indices[currentNode.vertex] = parentIdx;
-                indices[parentNode.vertex] = currentIdx;
-                swap(currentIdx, parentIdx);
-                currentIdx = parentIdx;
-                parentIdx = parentIdx / 2;
+                indices[currentNode.vertex] = root_Index;
+                indices[parentNode.vertex] = cuurent_Index;
+                swap(cuurent_Index, root_Index);
+                cuurent_Index = root_Index;
+                root_Index = root_Index / 2;
             }
         }
 
@@ -71,17 +71,17 @@ namespace ImageQuantization
         public void sinkDown(int k)
         {
             int smallest = k;
-            int leftChildIdx = 2 * k;
-            int rightChildIdx = 2 * k + 1;
+            int left_child_index = 2 * k;
+            int right_child_index = 2 * k + 1;
 
-            if (leftChildIdx < heapSize() && node[smallest].weight > node[leftChildIdx].weight)
+            if (left_child_index < heapSize() && node[smallest].weight > node[left_child_index].weight)
             {
-                smallest = leftChildIdx;
+                smallest = left_child_index;
             }
 
-            if (rightChildIdx < heapSize() && node[smallest].weight > node[rightChildIdx].weight)
+            if (right_child_index < heapSize() && node[smallest].weight > node[right_child_index].weight)
             {
-                smallest = rightChildIdx;
+                smallest = right_child_index;
             }
 
             if (smallest != k)

@@ -7,15 +7,13 @@ namespace ImageQuantization
 {
     class Edge
     {
-        public color to, from;
+        public int to, from;
         public double weight;
-        public Edge(color to, color from, double weight)
+        public Edge(int to, int from, double weight)
         {
             this.to = to;
             this.from = from;
             this.weight = weight;
         }
     }
-
-
 }

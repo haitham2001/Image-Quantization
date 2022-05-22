@@ -247,16 +247,16 @@ namespace ImageQuantization
             return Filtered;
         }
 
-        public static double Distance_between_two_colors(RGBPixel x, RGBPixel y)//Θ(1)
+        public static double Distance_between_two_colors(int x, int y)//Θ(1)
         {
-            return Math.Sqrt(Math.Pow(x.red - y.red, 2) + Math.Pow(x.blue - y.blue, 2) + Math.Pow(x.green - y.green, 2));//Θ(1)
+            return Math.Sqrt(Math.Pow((byte)(x >> 16) -(byte)(y >> 16), 2) + Math.Pow((byte)(x) - (byte)(y), 2) + Math.Pow((byte)(x >> 8) - (byte)(y >> 8), 2));//Θ(1)
         }
 
-        public static List<color> DistinctColours;
-        public static List<color> DistinctColors(RGBPixel[,] colors) // O(N*N)
+        public static List<int> DistinctColours;
+        public static List<int> DistinctColors(RGBPixel[,] colors) // O(N*N)
         {
             byte[,,] visited = new byte[256, 256, 256]; //O(1)
-            DistinctColours = new List<color>();         //O(1)
+            DistinctColours = new List<int>();         //O(1)
             int num = 0;
             for (int i = 0; i < colors.GetLength(0); i++)      //O(N)       N ---> length
             {
@@ -266,28 +266,11 @@ namespace ImageQuantization
                     {
                         visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] = 1;  //O(1)
                         num = (colors[i, j].red << 16) + (colors[i, j].green << 8) + colors[i, j].blue; //O(1)
-                        color new_color = new color(colors[i, j], num); //O(1)
-                        DistinctColours.Add(new_color);  //O(1)
+                        DistinctColours.Add(num);  //O(1)
                     }
                 }
             }
             return DistinctColours;
-        }
-        
-        public static RGBPixel[,] quantize_image(RGBPixel[,,] rGBPixels, RGBPixel[,] ImageMatrix) //n*n
-        {
-            RGBPixel rGBPixel;
-            for (int index_height = 0; index_height < GetHeight(ImageMatrix); index_height++)
-            {
-                for (int index_width = 0; index_width < GetWidth(ImageMatrix); index_width++)
-                {
-                    rGBPixel.red = rGBPixels[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue].red;
-                    rGBPixel.green = rGBPixels[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue].green;
-                    rGBPixel.blue = rGBPixels[ImageMatrix[index_height, index_width].red, ImageMatrix[index_height, index_width].green, ImageMatrix[index_height, index_width].blue].blue;
-                    ImageMatrix[index_height, index_width] = rGBPixel;
-                }
-            }
-            return ImageMatrix;
         }
     }
 }
