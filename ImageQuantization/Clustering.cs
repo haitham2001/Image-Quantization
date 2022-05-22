@@ -9,16 +9,19 @@ namespace ImageQuantization
     class Clustering
     {
         public static List<HashSet<int>> clusters;
-
+        public static List<RGBPixel> avgColor;
+        
         public static List<HashSet<int>> getClusters(List<Edge> MST, int num_cluster, List<int> distinctColor) // O(K*D)
         {
             Dictionary<int, HashSet<int>> neighbours = new Dictionary<int, HashSet<int>>();     //O(1)
-            clusters = new List<HashSet<int>>();                                                //O(1)
             HashSet<int> reached = new HashSet<int>();                                          //O(1)
+            clusters = new List<HashSet<int>>();                                                //O(1)
+            avgColor= new List<RGBPixel>();                                                     //O(1)
+            int redSum, greenSum, blueSum;                                                      //O(1)
 
             for (int i = 0; i < num_cluster - 1; i++)                                           //O(K)
             {
-                MST.RemoveAt(MST.Count - 1);                                              //O(1)
+                MST.RemoveAt(MST.Count - 1);                                                    //O(1)
             }
 
             for (int j = 0; j < distinctColor.Count; j++)                                       //O(D)
@@ -27,58 +30,58 @@ namespace ImageQuantization
 
             }
 
-            for (int j = 0; j < MST.Count; j++)                                              //O(E)
+            for (int j = 0; j < MST.Count; j++)                                                 //O(E)
             {
-                neighbours[MST[j].from].Add(MST[j].to);                                   //O(1)
-                neighbours[MST[j].to].Add(MST[j].from);                                   //O(1)
+                neighbours[MST[j].from].Add(MST[j].to);                                         //O(1)
+                neighbours[MST[j].to].Add(MST[j].from);                                         //O(1)
             }
 
-            //total = O(D+E)
-            foreach (var vertex in neighbours)                                                  //O(D)
+            //total = O(D)
+            foreach (var neighbour in neighbours)                                                  //O(D)
             {
-                if (!reached.Contains(vertex.Key))                                              //O(1)
+                if (!reached.Contains(neighbour.Key))                                              //O(1)
                 {
-                    HashSet<int> h = new HashSet<int>();                                        //O(1)
-                    DFS(vertex.Key, ref reached, ref neighbours, ref h);                        //O(E)
-                    clusters.Add(h);                                                            //O(1)
+                    RGBPixel avg_color;
+                    HashSet<int> cluster = new HashSet<int>();                                      //O(1)
+                    redSum = 0; greenSum = 0; blueSum = 0;                                          //O(1)
+
+                    DFS(neighbour.Key, ref reached, ref neighbours, ref cluster, ref redSum, ref greenSum, ref blueSum);            //O(D)
+                    clusters.Add(cluster);                                                   //O(1)
+
+                    avg_color.red = (byte)(redSum / cluster.Count);                          //O(1)
+                    avg_color.green = (byte)(greenSum / cluster.Count);                      //O(1)
+                    avg_color.blue = (byte)(blueSum / cluster.Count);                        //O(1)
+                    avgColor.Add(avg_color);
+  
                 }
             }
-            return clusters;                                                                    //O(1)
+            return clusters;                                                                 //O(1)
         }
 
-        private static void DFS(int cur, ref HashSet<int> visited, ref Dictionary<int, HashSet<int>> neighbours, ref HashSet<int> cluster)
+        private static void DFS(int cur, ref HashSet<int> visited, ref Dictionary<int, HashSet<int>> neighbours, ref HashSet<int> cluster
+            ,ref int redSum, ref int greenSum, ref int blueSum)
         {
-            visited.Add(cur);                                                  //O(1)
             cluster.Add(cur);                                                  //O(1)
-            foreach (var neighbour in neighbours[cur])                         //O(E)
+            visited.Add(cur);                                                  //O(1)
+
+            redSum += (byte)(cur >> 16);                                       //O(1)
+            greenSum += (byte)(cur >> 8);                                      //O(1)
+            blueSum += (byte)(cur);                                            //O(1)
+
+            foreach (var neighbour in neighbours[cur])                         //O(D)
             {
-                if (!visited.Contains(neighbour))                             //O(1)
-                    DFS(neighbour, ref visited, ref neighbours, ref cluster);
+                if (!visited.Contains(neighbour))                              //O(1)
+                    DFS(neighbour, ref visited, ref neighbours, ref cluster,ref redSum,ref greenSum,ref blueSum);
             }
         }
 
-        public static List<RGBPixel> ExtractColors(List<HashSet<int>> clusters)  //O(D)
+        public static List<RGBPixel> ExtractColors(List<HashSet<int>> clusters)  //O(K)
         {
 
             List<RGBPixel> Palette = new List<RGBPixel>();           //O(1)
-            RGBPixel avgColor;                                       //O(1)
-            int redSum, greenSum, blueSum;                           //O(1)
-
-            for (int i = 0; i < clusters.Count; i++)                 //O(1)
+            for (int i = 0; i < clusters.Count; i++)                 //O(K)
             {
-                redSum = 0; greenSum = 0; blueSum = 0;               //O(1)
-
-                foreach (var color in clusters[i])                   //O(D)
-                {
-                    redSum += (byte)(color >> 16);                         //O(1)
-                    greenSum += (byte)(color >> 8);                        //O(1)
-                    blueSum += (byte)(color);                              //O(1)
-                }
-                avgColor.red = (byte)(redSum / clusters[i].Count);         //O(1)
-                avgColor.green = (byte)(greenSum / clusters[i].Count);     //O(1)
-                avgColor.blue = (byte)(blueSum / clusters[i].Count);       //O(1)
-
-                Palette.Add(avgColor);                                     //O(1)
+                Palette.Add(avgColor[i]);                            //O(1)
             }
 
             return Palette;
@@ -89,7 +92,8 @@ namespace ImageQuantization
             int height = ImageOperations.GetHeight(imageMatrix);                  //O(1)
             int width = ImageOperations.GetWidth(imageMatrix);                    //O(1)
             RGBPixel[,] quantized_image = new RGBPixel[height, width];            //O(1)
-            RGBPixel[,,] new_colors = new RGBPixel[256, 256, 256];                //O(1)
+            RGBPixel[,,] new_colors = new RGBPixel[256,256,256];                  //O(1)
+
 
             for (int i = 0; i < clusters.Count; i++)                              //O(K)
             {

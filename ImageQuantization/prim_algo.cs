@@ -39,13 +39,16 @@ namespace ImageQuantization
                 }
             }
 
-            List<Edge> sorted = adjaceny_list.OrderBy(x => x.weight).ToList();       //O(E log(E))
+            List<Edge> sorted = adjaceny_list.OrderBy(x => x.weight).ToList();    //O(E log (E))
             return sorted;
         }
 
         public void primMst(List<int> distinct)             // O(E log(V))
         {
             // Initializing needed Variables
+            double distinctColor_B = System.Environment.TickCount;
+
+           
             for (int i = 0; i < num_of_vertices; i++)           //O(V)
             {
                 // Constructing the Minimum Heap
@@ -63,6 +66,11 @@ namespace ImageQuantization
                 is_in_heap[i] = true; // bec it is has been put in the heap
                 key[i] = int.MaxValue;                   //O(1)
             }
+
+            double distinctColor_a = System.Environment.TickCount;
+            double distinctColor_r = distinctColor_a - distinctColor_B;
+            distinctColor_r /= 1000;
+            var s = distinctColor_r;
             root[0] = -1;                                //O(1)
             min_weights[0] = 0;                          //O(1)
             while (!minheap.isEmpty())                   //Log(V)
