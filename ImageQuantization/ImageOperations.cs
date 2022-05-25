@@ -253,20 +253,20 @@ namespace ImageQuantization
         }
 
         public static List<int> DistinctColours;
-        public static List<int> DistinctColors(RGBPixel[,] colors) // O(N*N)
+        public static List<int> DistinctColors(RGBPixel[,] colors) // Θ(N*N)
         {
-            byte[,,] visited = new byte[256, 256, 256]; //O(1)
-            DistinctColours = new List<int>();         //O(1)
+            byte[,,] visited = new byte[256, 256, 256]; //Θ(1)
+            DistinctColours = new List<int>();         //Θ(1)
             int num = 0;
-            for (int i = 0; i < colors.GetLength(0); i++)      //O(N)       N ---> length
+            for (int i = 0; i < colors.GetLength(0); i++)      //Θ(N)       N ---> length
             {
-                for (int j = 0; j < colors.GetLength(1); j++)   //O(W)       W --->wigth
+                for (int j = 0; j < colors.GetLength(1); j++)   //Θ(W)       W --->wigth
                 {
-                    if (visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] == 0) //O(1)
+                    if (visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] == 0) //Θ(1)
                     {
-                        visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] = 1;  //O(1)
-                        num = (colors[i, j].red << 16) + (colors[i, j].green << 8) + colors[i, j].blue; //O(1)
-                        DistinctColours.Add(num);  //O(1)
+                        visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] = 1;  //Θ(1)
+                        num = (colors[i, j].red << 16) + (colors[i, j].green << 8) + colors[i, j].blue; //Θ(1)
+                        DistinctColours.Add(num);  //Θ(1)
                     }
                 }
             }

@@ -9,11 +9,11 @@ namespace ImageQuantization
     {
         public int to, from;
         public double weight;
-        public Edge(int to, int from, double weight)
+        public Edge(int to, int from, double weight) //Θ(1)
         {
-            this.to = to;
-            this.from = from;
-            this.weight = weight;
+            this.to = to; //Θ(1)
+            this.from = from; //Θ(1)
+            this.weight = weight; //Θ(1)
         }
     }
 }
