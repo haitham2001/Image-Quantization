@@ -39,16 +39,13 @@ namespace ImageQuantization
                 }
             }
 
-            List<Edge> sorted = adjaceny_list.OrderBy(x => x.weight).ToList();    //O(V log (V))
+            List<Edge> sorted = adjaceny_list.OrderBy(x => x.weight).ToList();    //O(E log (V))
             return sorted;
         }
 
         public void primMst(List<int> distinct)             // O(V log(V))
         {
             // Initializing needed Variables
-            double distinctColor_B = System.Environment.TickCount;
-
-           
             for (int i = 0; i < num_of_vertices; i++)           //Θ(V)
             {
                 // Constructing the Minimum Heap
@@ -66,20 +63,15 @@ namespace ImageQuantization
                 is_in_heap[i] = true; //Θ(1)  // bec it is has been put in the heap
                 key[i] = int.MaxValue; //Θ(1)
             }
-
-            double distinctColor_a = System.Environment.TickCount; //Θ(1)
-            double distinctColor_r = distinctColor_a - distinctColor_B; //Θ(1)
-            distinctColor_r /= 1000; //Θ(1)
-            var s = distinctColor_r;  //Θ(1)
             root[0] = -1;                                //Θ(1)
             min_weights[0] = 0;                          //Θ(1)
-            while (!minheap.isEmpty())                   //O(Log(V)) --> Θ(V*LogV)
+            while (!minheap.isEmpty())                   //O(Log(V)) --> O(V* Log(V))
             {
                 Node minimum = minheap.extractMin();                    //Θ(1)
                 int vertex_of_minimum_node = minimum.vertex;            //Θ(1)
                 is_in_heap[vertex_of_minimum_node] = false;             //Θ(1)      // we removed it from the heap
 
-                for (int i = 0; i < num_of_vertices; i++)                //Θ(V)
+                for (int i = 0; i < num_of_vertices; i++)                //O(V)
                 {
                     if(is_in_heap[i])                      //Θ(1)
                     {
