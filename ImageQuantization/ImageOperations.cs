@@ -252,15 +252,14 @@ namespace ImageQuantization
             return Math.Sqrt(Math.Pow((byte)(x >> 16) -(byte)(y >> 16), 2) + Math.Pow((byte)(x) - (byte)(y), 2) + Math.Pow((byte)(x >> 8) - (byte)(y >> 8), 2));//Θ(1)
         }
 
-        public static List<int> DistinctColours;
         public static List<int> DistinctColors(RGBPixel[,] colors) // Θ(N*N)
         {
             byte[,,] visited = new byte[256, 256, 256]; //Θ(1)
-            DistinctColours = new List<int>();         //Θ(1)
-            int num = 0;
+            List<int> DistinctColours = new List<int>();         //Θ(1)
+            int num;
             for (int i = 0; i < colors.GetLength(0); i++)      //Θ(N)       N ---> length
             {
-                for (int j = 0; j < colors.GetLength(1); j++)   //Θ(W)       W --->wigth
+                for (int j = 0; j < colors.GetLength(1); j++)   //Θ(N)       N --->wigth
                 {
                     if (visited[colors[i, j].red, colors[i, j].green, colors[i, j].blue] == 0) //Θ(1)
                     {

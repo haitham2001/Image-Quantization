@@ -29,7 +29,7 @@ namespace ImageQuantization
         {
             List<Edge> adjaceny_list = new List<Edge>();
 
-            primMst(distinct_colors);                         // O(E log(V))
+            primMst(distinct_colors);                         // O(V log(V))
             for (int i = 0; i < num_of_vertices; i++)         //Θ(V)
             {
                 if (root[i] >= 0)                             //Θ(1)
@@ -39,11 +39,11 @@ namespace ImageQuantization
                 }
             }
 
-            List<Edge> sorted = adjaceny_list.OrderBy(x => x.weight).ToList();    //O(E log (E))
+            List<Edge> sorted = adjaceny_list.OrderBy(x => x.weight).ToList();    //O(V log (V))
             return sorted;
         }
 
-        public void primMst(List<int> distinct)             // O(E log(V))
+        public void primMst(List<int> distinct)             // O(V log(V))
         {
             // Initializing needed Variables
             double distinctColor_B = System.Environment.TickCount;
@@ -73,7 +73,7 @@ namespace ImageQuantization
             var s = distinctColor_r;  //Θ(1)
             root[0] = -1;                                //Θ(1)
             min_weights[0] = 0;                          //Θ(1)
-            while (!minheap.isEmpty())                   //O(Log(V)) --> Θ(E*LogV)
+            while (!minheap.isEmpty())                   //O(Log(V)) --> Θ(V*LogV)
             {
                 Node minimum = minheap.extractMin();                    //Θ(1)
                 int vertex_of_minimum_node = minimum.vertex;            //Θ(1)
