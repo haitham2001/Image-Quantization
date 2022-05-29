@@ -1,0 +1,10 @@
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\bin\Debug\Image Processing.exe.config
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\bin\Debug\Image Processing.exe
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\bin\Debug\Image Processing.pdb
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\obj\Debug\ImageQuantization.csproj.AssemblyReference.cache
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\obj\Debug\ImageQuantization.MainForm.resources
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\obj\Debug\ImageQuantization.Properties.Resources.resources
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\obj\Debug\ImageQuantization.csproj.GenerateResource.cache
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\obj\Debug\ImageQuantization.csproj.CoreCompileInputs.cache
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\obj\Debug\Image Processing.exe
+C:\Users\Hady Ahmed\Desktop\Draft\Image-Quantization-Project-master\Image Processing\ImageQuantization\obj\Debug\Image Processing.pdb

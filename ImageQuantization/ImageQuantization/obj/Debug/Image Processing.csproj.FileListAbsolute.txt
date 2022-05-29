@@ -1,0 +1,12 @@
+C:\Users\user\documents\visual studio 2012\Projects\Image Processing\Image Processing\bin\Debug\Image Processing.exe.config
+C:\Users\user\documents\visual studio 2012\Projects\Image Processing\Image Processing\bin\Debug\Image Processing.exe
+C:\Users\user\documents\visual studio 2012\Projects\Image Processing\Image Processing\bin\Debug\Image Processing.pdb
+C:\Users\user\documents\visual studio 2012\Projects\Image Processing\Image Processing\obj\Debug\Image_Processing.Properties.Resources.resources
+C:\Users\user\documents\visual studio 2012\Projects\Image Processing\Image Processing\obj\Debug\Image Processing.csproj.GenerateResource.Cache
+C:\Users\user\documents\visual studio 2012\Projects\Image Processing\Image Processing\obj\Debug\Image Processing.exe
+C:\Users\user\documents\visual studio 2012\Projects\Image Processing\Image Processing\obj\Debug\Image Processing.pdb
+C:\Users\user\documents\visual studio 2012\Projects\Image Processing\Image Processing\obj\Debug\Image_Processing.MainForm.resources
+E:\Study\Year 3\Algorithm\project\Image Processing\Image Processing\bin\Debug\Image Processing.exe.config
+E:\Study\Year 3\Algorithm\project\Image Processing\Image Processing\obj\Debug\Image Processing.exe
+E:\Study\Year 3\Algorithm\project\Image Processing\Image Processing\obj\Debug\Image Processing.pdb
+C:\Users\user\Documents\Visual Studio 2012\Projects\Image Processing\Image Processing\obj\Debug\Image Processing.csprojResolveAssemblyReference.cache
